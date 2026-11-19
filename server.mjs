@@ -26,7 +26,7 @@ export function initializeDemo(db){db.exec('CREATE TABLE IF NOT EXISTS app_meta 
 function match(p,h){try{const [s]=h.split(':');return timingSafeEqual(Buffer.from(hash(p,s)),Buffer.from(h))}catch{return false}}
 const equal=(a,b)=>{const x=Buffer.from(String(a)),y=Buffer.from(String(b));return x.length===y.length&&timingSafeEqual(x,y)};
 function start(){
- const demo=process.env.DEMO==='1';const linkAccess=!demo&&process.env.PARENT_LINK_ACCESS==='1';const teacher=process.env.TEACHER_PASSWORD||(demo?'demo-teacher-2026':'');const classCode=process.env.CLASS_CODE||(demo?'demo-class-2026':'');if(teacher.length<(demo?6:12)||classCode.length<(linkAccess?32:10))throw Error('Set TEACHER_PASSWORD (12+) and CLASS_CODE (10+) or DEMO=1 for local testing.');
+ const demo=process.env.DEMO==='1';const linkAccess=!demo&&process.env.PARENT_LINK_ACCESS==='1';const teacher=process.env.TEACHER_PASSWORD||(demo?'demo-teacher-2026':'');const classCode=process.env.CLASS_CODE||(demo?'demo-class-2026':'');if(teacher.length<6||classCode.length<(linkAccess?32:10))throw Error('Set TEACHER_PASSWORD (12+) and CLASS_CODE (10+) or DEMO=1 for local testing.');
  const path=process.env.DB_PATH||join(root,'data','attendance.sqlite');mkdirSync(dirname(path),{recursive:true});const db=new DatabaseSync(path);schema(db);
  if(demo)initializeDemo(db);
  const sessions=new Map(),limits=new Map();const cookieName='attendance_session';
